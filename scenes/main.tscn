@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3 uid="uid://bl8ssvad7wwov"]
+
+[ext_resource type="Shader" uid="uid://cca5r14i46ajb" path="res://res/material/back.gdshader" id="1_0wfyh"]
+[ext_resource type="Script" uid="uid://dfh2gs7aaq7lr" path="res://scenes/main.gd" id="1_sugp2"]
+[ext_resource type="FontFile" uid="uid://b552blydeg7ur" path="res://res/fonts/vergilia.ttf" id="2_sugp2"]
+[ext_resource type="Texture2D" uid="uid://cc1xi3ue0w71e" path="res://res/assets/ouroboros.png" id="4_jyhfs"]
+[ext_resource type="FontFile" uid="uid://d0h3y3visavpu" path="res://res/fonts/Jersey10-Regular.ttf" id="4_tbgi4"]
+[ext_resource type="AudioStream" uid="uid://dfph2xpe22tmr" path="res://res/sounds/main_menu.wav" id="6_tefeu"]
+[ext_resource type="Texture2D" uid="uid://bue4o6viogd5b" path="res://res/assets/vol-icon.png" id="7_o6xl0"]
+[ext_resource type="Texture2D" uid="uid://eqij1534dmnj" path="res://res/assets/mute-icon.png" id="7_tipki"]
+[ext_resource type="Texture2D" uid="uid://dn7ae016x8jw6" path="res://res/assets/tutorial-icon.png" id="9_85g3d"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_o6xl0"]
+fade_time = 1.0
+stream_count = 1
+stream_0 = ExtResource("6_tefeu")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sgp6g"]
+shader = ExtResource("1_0wfyh")
+shader_parameter/color_one = Color(0.44, 0.1452, 0.20416, 1)
+shader_parameter/color_two = Color(0.174292, 0.235703, 0.102582, 1)
+shader_parameter/angle = 45.0
+shader_parameter/line_count = 80.0
+shader_parameter/speed = 5.0
+shader_parameter/blur = 0.0
+
+[node name="Main" type="CanvasLayer"]
+script = ExtResource("1_sugp2")
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamPlaylist_o6xl0")
+autoplay = true
+bus = &"Music"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_sgp6g")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 114.0
+offset_right = 1281.0
+offset_bottom = 215.0
+theme_override_colors/font_color = Color(0.466667, 0.6, 0.317647, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sugp2")
+theme_override_font_sizes/font_size = 100
+text = "       uroboros"
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_top = 284.0
+offset_right = 1280.0
+offset_bottom = 318.0
+theme_override_fonts/font = ExtResource("4_tbgi4")
+theme_override_font_sizes/font_size = 36
+text = "Highscore : "
+horizontal_alignment = 1
+
+[node name="StartText" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 493.0
+offset_right = 1280.0
+offset_bottom = 552.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_sugp2")
+theme_override_font_sizes/font_size = 48
+horizontal_alignment = 1
+
+[node name="Ouroboros" type="Sprite2D" parent="."]
+position = Vector2(465, 148)
+scale = Vector2(0.0663962, 0.0622022)
+texture = ExtResource("4_jyhfs")
+
+[node name="TouchAnywhereControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VolButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+offset_left = 1212.0
+offset_top = 1.0
+offset_right = 1280.0
+offset_bottom = 69.0
+texture_normal = ExtResource("7_tipki")
+
+[node name="MuteButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+offset_left = 1212.0
+offset_right = 1280.0
+offset_bottom = 68.0
+texture_normal = ExtResource("7_o6xl0")
+
+[node name="TutorialButton" type="TextureButton" parent="."]
+offset_left = 1135.0
+offset_right = 1201.0
+offset_bottom = 63.0
+texture_normal = ExtResource("9_85g3d")
+
+[connection signal="gui_input" from="TouchAnywhereControl" to="." method="_on_touch_anywhere_control_gui_input"]
+[connection signal="pressed" from="VolButton" to="." method="_on_vol_button_pressed"]
+[connection signal="pressed" from="MuteButton" to="." method="_on_mute_button_pressed"]
+[connection signal="pressed" from="TutorialButton" to="." method="_on_tutorial_button_pressed"]

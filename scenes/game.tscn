@@ -1,0 +1,256 @@
+[gd_scene load_steps=13 format=3 uid="uid://88r52qg5kb8a"]
+
+[ext_resource type="Script" uid="uid://ccwjnuctbukyw" path="res://scenes/game.gd" id="1_uwrxv"]
+[ext_resource type="AudioStream" uid="uid://c1s8e4j8s17tu" path="res://res/sounds/gameplay_normal.ogg" id="2_gee14"]
+[ext_resource type="Shader" uid="uid://brkona5mrjiik" path="res://res/material/background.gdshader" id="2_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://b70sjmhx0dnwd" path="res://scenes/snake.tscn" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://bmq4s6hfkxkaa" path="res://scenes/right_zone.gd" id="3_u5sy4"]
+[ext_resource type="AudioStream" uid="uid://b8lhbcsdqy5kd" path="res://res/sounds/gameplay_danger.ogg" id="3_vtaks"]
+[ext_resource type="FontFile" uid="uid://d0h3y3visavpu" path="res://res/fonts/Jersey10-Regular.ttf" id="4_iywne"]
+[ext_resource type="AudioStream" uid="uid://8noa003kfu86" path="res://res/sounds/losetrumpet.ogg" id="4_kvpfn"]
+[ext_resource type="FontFile" uid="uid://b552blydeg7ur" path="res://res/fonts/vergilia.ttf" id="5_p57ef"]
+[ext_resource type="Script" uid="uid://cxitq8lsn74ri" path="res://scenes/left_zone.gd" id="6_p57ef"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_gee14"]
+clip_count = 3
+clip_0/name = &"Normal"
+clip_0/stream = ExtResource("2_gee14")
+clip_0/auto_advance = 0
+clip_1/name = &"Danger"
+clip_1/stream = ExtResource("3_vtaks")
+clip_1/auto_advance = 0
+clip_2/name = &"Lose"
+clip_2/stream = ExtResource("4_kvpfn")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 2.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(0, 2): {
+"fade_beats": 1.0,
+"fade_mode": 0,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(1, 2): {
+"fade_beats": 1.0,
+"fade_mode": 0,
+"from_time": 0,
+"to_time": 1
+}
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lbhrr"]
+shader = ExtResource("2_lnu2h")
+shader_parameter/background_color = Color(0.466667, 0.6, 0.317647, 1)
+shader_parameter/foreground_color = Color(0.467, 0.6, 0.318, 0)
+shader_parameter/grid_size = 98.8
+shader_parameter/dot_size = 0.3
+
+[node name="Game" type="CanvasLayer"]
+script = ExtResource("1_uwrxv")
+
+[node name="HardcoreTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+one_shot = true
+ignore_time_scale = true
+
+[node name="EndTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 3.0
+one_shot = true
+ignore_time_scale = true
+
+[node name="SpeedUpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 10.0
+ignore_time_scale = true
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamInteractive_gee14")
+volume_db = -4.0
+autoplay = true
+bus = &"Music"
+
+[node name="Walls" type="ColorRect" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.174292, 0.235703, 0.102582, 1)
+
+[node name="PlayableAreaContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="BG" type="ColorRect" parent="PlayableAreaContainer"]
+material = SubResource("ShaderMaterial_lbhrr")
+layout_mode = 2
+color = Color(0.4684, 0.6, 0.318, 1)
+
+[node name="NarrativeLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 4.0
+offset_top = 39.0
+offset_right = 1278.0
+offset_bottom = 103.0
+theme_override_colors/font_color = Color(0.96, 0.9504, 0.9504, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_p57ef")
+theme_override_font_sizes/font_size = 42
+text = "Fool!"
+horizontal_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="Snake" parent="." instance=ExtResource("2_yqjtg")]
+unique_name_in_owner = true
+segment_count = 64
+radius = 100
+speed = 200
+turn_radius = 80
+
+[node name="EndLabel" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 3.0
+offset_top = 243.0
+offset_right = 1277.0
+offset_bottom = 307.0
+theme_override_colors/font_color = Color(0.955191, 0.560599, 0.558065, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 5
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_p57ef")
+theme_override_font_sizes/font_size = 72
+text = "Cursesss"
+horizontal_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 1127.0
+offset_top = 7.0
+offset_right = 1215.0
+offset_bottom = 49.0
+theme_override_fonts/font = ExtResource("4_iywne")
+theme_override_font_sizes/font_size = 36
+text = "Score:"
+
+[node name="Score" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = 1218.0
+offset_top = 7.0
+offset_right = 1270.0
+offset_bottom = 49.0
+theme_override_fonts/font = ExtResource("4_iywne")
+theme_override_font_sizes/font_size = 36
+text = "0"
+
+[node name="Spawns" type="Node" parent="."]
+
+[node name="Spawn1" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(223, 151)
+
+[node name="Spawn2" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(275, 347)
+
+[node name="Spawn3" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(179, 520)
+
+[node name="Spawn4" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(426, 499)
+
+[node name="Spawn5" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(788, 448)
+
+[node name="Spawn6" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(409, 183)
+
+[node name="Spawn7" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(775, 197)
+
+[node name="Spawn8" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(957, 130)
+
+[node name="Spawn9" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(943, 320)
+
+[node name="Spawn10" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(964, 522)
+
+[node name="Spawn11" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(458, 628)
+
+[node name="Spawn12" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(611, 536)
+
+[node name="Spawn13" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(852, 619)
+
+[node name="Spawn14" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(1152, 109)
+
+[node name="Spawn15" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(1127, 451)
+
+[node name="Spawn17" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(626, 96)
+
+[node name="Spawn18" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(1164, 595)
+
+[node name="Spawn19" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(89, 363)
+
+[node name="Spawn20" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(109, 106)
+
+[node name="Spawn21" type="Marker2D" parent="Spawns" groups=["UltraFoodSpawnPoints"]]
+position = Vector2(116, 600)
+
+[node name="Spawn22" type="Marker2D" parent="Spawns" groups=["FoodSpawnPoints"]]
+position = Vector2(1114, 250)
+
+[node name="TouchZones" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="LeftZone" type="Control" parent="TouchZones"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("6_p57ef")
+
+[node name="RightZone" type="Control" parent="TouchZones"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_u5sy4")
+
+[connection signal="timeout" from="HardcoreTimer" to="." method="_on_hardcore_timer_timeout"]
+[connection signal="timeout" from="EndTimer" to="." method="_on_end_timer_timeout"]
+[connection signal="timeout" from="SpeedUpTimer" to="." method="_on_speed_up_timer_timeout"]
+[connection signal="ate_food" from="Snake" to="." method="_on_snake_ate_food"]
+[connection signal="died" from="Snake" to="." method="_on_snake_died"]
