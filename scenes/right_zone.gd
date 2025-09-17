@@ -1,7 +1,7 @@
 extends Control
 
 var pressed := false
-var action_name := "ui_right"
+var action_name := "ui_select"
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_mask == MOUSE_BUTTON_LEFT:

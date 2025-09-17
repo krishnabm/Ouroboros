@@ -14,7 +14,11 @@ config/name="Ouroboros"
 config/version="0.0.1"
 run/main_scene="uid://bl8ssvad7wwov"
 config/features=PackedStringArray("4.4", "Mobile")
+boot_splash/bg_color=Color(0.53, 0.3975, 0.457125, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://ckttnrp16prep"
 config/icon="uid://do56tu6sju0mi"
+boot_splash/minimum_display_time=1500
 
 [audio]
 

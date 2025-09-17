@@ -110,8 +110,6 @@ func _on_snake_ate_food() -> void:
 			ateGolden = true
 		child.queue_free()
 	
-	snake.grow_tail()
-	
 	if ateGolden:
 		scoreVal += 50
 		score.text = str(score.text.to_int() + 50)
