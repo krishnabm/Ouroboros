@@ -47,11 +47,6 @@ func _process(delta: float) -> void:
 	if !foodExists:
 		spawn_food()
 
-	if left_zone.pressed:
-		snake.steer_left()
-	elif right_zone.pressed:
-		snake.steer_right()
-
 func spawn_food():
 	var spawn = get_tree().get_nodes_in_group("FoodSpawnPoints")
 	var foodNode = null

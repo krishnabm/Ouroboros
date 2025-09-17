@@ -2,12 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://uqnale5i8hrs"
-valid=false
+uid="uid://danjlf4ry4qf7"
+path="res://.godot/imported/3.png-7978c79501bc12b0949b5e5ba586c1c7.ctex"
+metadata={
+"vram_texture": false
+}
 
 [deps]
 
 source_file="res://res/tutorialSlides/3.png"
+dest_files=["res://.godot/imported/3.png-7978c79501bc12b0949b5e5ba586c1c7.ctex"]
 
 [params]
 
