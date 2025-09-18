@@ -124,7 +124,7 @@ visible_ratio = 0.0
 unique_name_in_owner = true
 segment_count = 64
 radius = 100
-speed = 200
+speed = 150
 turn_radius = 80
 
 [node name="EndLabel" type="Label" parent="."]

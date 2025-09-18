@@ -137,8 +137,8 @@ func _process(delta: float) -> void:
 				gradient = eatGradient
 				if try_eat(i):
 					eat_sounds.play(0.1)
-					# Messy way of adding 3 points
-					for _x in range(5):
+					# Messy way of adding to snake's length
+					for _x in range(3):
 						add_point(tailPos)
 					ate_food.emit()
 					break

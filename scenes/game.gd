@@ -4,7 +4,7 @@ const FOOD = preload("res://scenes/food.tscn")
 const ULTRA_FOOD = preload("res://scenes/ultra_food.tscn")
 var foodExists: bool = false
 var foodSpawn: Marker2D
-var hardcoreWarning := false
+var hardcoreWarning := 0
 var isHardcore: bool = false
 var scoreVal := 0
 var highScoreVal := 0
@@ -66,36 +66,37 @@ func _on_snake_ate_food() -> void:
 	foodExists = false
 	
 	var hardStarted = not hardcore_timer.is_stopped()
-	if !isHardcore and !hardStarted and hardcoreWarning:
+	if !isHardcore and !hardStarted and hardcoreWarning >= 5:
 		hardcore_timer.start()
-		if (warningsSeen < 3):
-			if warningsSeen == 0:
-				narrative_label.text = "Now suffer my wrath!!!"
-			elif warningsSeen == 1:
-				narrative_label.text = "Prepare to die!"
-			elif warningsSeen == 2:
-				narrative_label.text = "...."
-			warningsSeen += 1
-			GameParams.update_param("warningsSeen", warningsSeen)
-			var tween = create_tween()
-			tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
-			tween.tween_property(narrative_label, "visible_ratio", 1.0, 1.0)
-			tween.tween_property(narrative_label, "visible_ratio", 0.0, 1.0)
+		var dialogIndex = warningsSeen % 3
+		if dialogIndex == 0:
+			narrative_label.text = "Now suffer my wrath!!!"
+		elif dialogIndex == 1:
+			narrative_label.text = "Prepare to die!"
+		elif dialogIndex == 2:
+			narrative_label.text = "...."
+		warningsSeen += 1
+		GameParams.update_param("warningsSeen", warningsSeen)
+		var tween = create_tween()
+		tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
+		tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
+		tween.tween_property(narrative_label, "visible_ratio", 0.0, 0.01)
 
-	if !isHardcore and !hardStarted and !hardcoreWarning:
-		hardcoreWarning = true
-		if (warningsSeen < 3):
-			if warningsSeen == 0:
+	if !isHardcore and !hardStarted and hardcoreWarning < 5:
+		hardcoreWarning += 1
+		if hardcoreWarning == 1 or hardcoreWarning == 3:
+			var dialogIndex = (warningsSeen + hardcoreWarning - 1) % 3
+			if dialogIndex == 0:
 				narrative_label.text = "You dare pilfer my bounty, fool!!??"
-			elif warningsSeen == 1:
+			elif dialogIndex == 1:
 				narrative_label.text = "You're back again?"
-			elif warningsSeen == 2:
+			elif dialogIndex == 2:
 				narrative_label.text = "...this is getting tedious"
 			
 			var tween = create_tween()
 			tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
-			tween.tween_property(narrative_label, "visible_ratio", 1.0, 1.0)
-			tween.tween_property(narrative_label, "visible_ratio", 0.0, 1.0)
+			tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
+			tween.tween_property(narrative_label, "visible_ratio", 0.0, 0.01)
 		
 			
 		
@@ -124,7 +125,7 @@ func _on_hardcore_timer_timeout() -> void:
 	walls.material = load("res://res/material/hardcore.tres")
 
 func _on_speed_up_timer_timeout() -> void:
-	snake.speed += 100
+	snake.speed += 50
 
 func _on_snake_died() -> void:
 	bgm["parameters/switch_to_clip"] = "Lose"
