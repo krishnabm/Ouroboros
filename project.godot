@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Ouroboros"
-config/version="0.1.0"
+config/version="0.1.1"
 run/main_scene="uid://bl8ssvad7wwov"
 config/features=PackedStringArray("4.4", "Mobile")
+run/max_fps=60
 boot_splash/bg_color=Color(0.53, 0.3975, 0.457125, 1)
 boot_splash/fullsize=false
 boot_splash/image="uid://ckttnrp16prep"
@@ -26,7 +27,7 @@ buses/default_bus_layout="res://res/sounds/default_bus_layout.tres"
 
 [autoload]
 
-DebugDraw="*res://util/debug_draw.gd"
+DebugDraw="res://util/debug_draw.gd"
 GameParams="*res://services/game_params.gd"
 
 [display]
@@ -34,6 +35,7 @@ GameParams="*res://services/game_params.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+window/handheld/orientation=4
 
 [global_group]
 

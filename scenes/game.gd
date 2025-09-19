@@ -66,7 +66,7 @@ func _on_snake_ate_food() -> void:
 	foodExists = false
 	
 	var hardStarted = not hardcore_timer.is_stopped()
-	if !isHardcore and !hardStarted and hardcoreWarning >= 5:
+	if !isHardcore and !hardStarted and hardcoreWarning >= 4:
 		hardcore_timer.start()
 		var dialogIndex = warningsSeen % 3
 		if dialogIndex == 0:
@@ -82,14 +82,14 @@ func _on_snake_ate_food() -> void:
 		tween.tween_property(narrative_label, "visible_ratio", 1.0, 2.0)
 		tween.tween_property(narrative_label, "visible_ratio", 0.0, 0.01)
 
-	if !isHardcore and !hardStarted and hardcoreWarning < 5:
+	if !isHardcore and !hardStarted and hardcoreWarning < 4:
 		hardcoreWarning += 1
 		if hardcoreWarning == 1 or hardcoreWarning == 3:
 			var dialogIndex = (warningsSeen + hardcoreWarning - 1) % 3
 			if dialogIndex == 0:
 				narrative_label.text = "You dare pilfer my bounty, fool!!??"
 			elif dialogIndex == 1:
-				narrative_label.text = "You're back again?"
+				narrative_label.text = "How dare you steal that?"
 			elif dialogIndex == 2:
 				narrative_label.text = "...this is getting tedious"
 			
